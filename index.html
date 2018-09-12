@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="毕业后先后从事测试和前端开发工作！">
+<meta property="og:type" content="website">
+<meta property="og:title" content="前端分享">
+<meta property="og:url" content="https://leehongqiang.github.io/index.html">
+<meta property="og:site_name" content="前端分享">
+<meta property="og:description" content="毕业后先后从事测试和前端开发工作！">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端分享">
+<meta name="twitter:description" content="毕业后先后从事测试和前端开发工作！">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leehongqiang.github.io/"/>
+
+
+
+
+
+  <title>前端分享</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?df7957c9a0e9fa27e2471c7827335fd4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">前端分享</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高效的工作就是自我驱动！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-thumbs-up"></i> <br />
+            
+            demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2018/04/11/读JavaScript高级程序设计之DOM事件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/11/读JavaScript高级程序设计之DOM事件/" itemprop="url">读JavaScript高级程序设计之DOM事件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T14:13:31+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/04/11/读JavaScript高级程序设计之DOM事件/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://leehongqiang.github.io/2018/04/11/读JavaScript高级程序设计之DOM事件/" class="cy_cmt_count" data-xid="2018/04/11/读JavaScript高级程序设计之DOM事件/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>DOM事件。事件的定义，就是文档和浏览器窗口发生的一些特定交互的瞬间。此文出自JavaScript高级程序设计一书对事件的定义</p>
+<h2 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h2><h3 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h3><p>事件冒泡是IE事件流，当点击一个按钮时是由内而外，就是事件点击焦点逐级向上</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>test<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>点击id为app事件顺序为，div body html document<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/11/读JavaScript高级程序设计之DOM事件/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2018/04/04/关于VUE-Router一些记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/04/关于VUE-Router一些记录/" itemprop="url">关于VUE-Router一些记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-04T09:36:52+08:00">
+                2018-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/04/04/关于VUE-Router一些记录/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://leehongqiang.github.io/2018/04/04/关于VUE-Router一些记录/" class="cy_cmt_count" data-xid="2018/04/04/关于VUE-Router一些记录/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>单页应用如何得到多页应用的体验，VUE给我们提供了vue-router,此文不谈论如何安装如何使用，只记录下一些在实际运用中的知识点，所以如果您看到了此文在这之前你需要对vue-router有一定的了解，可能您还需要使用才会继续深入！<a href="https://router.vuejs.org/zh-cn/essentials/getting-started.html" target="_blank" rel="noopener">点击这里去查看vue-router</a></p>
+<h2 id="router-view的使用时机"><a href="#router-view的使用时机" class="headerlink" title="router-view的使用时机"></a>router-view的使用时机</h2><p>router-view是我们router进入后需要渲染的内容呈现的空间</p>
+<p>我们来理解一下这个空间：</p>
+<p><img src="https://leehongqiang.github.io/images/page.jpg" alt="kongjian"></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/04/关于VUE-Router一些记录/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2018/03/12/读JavaScript高级程序设计之面向对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/12/读JavaScript高级程序设计之面向对象/" itemprop="url">读JavaScript高级程序设计之面向对象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T09:13:47+08:00">
+                2018-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/03/12/读JavaScript高级程序设计之面向对象/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://leehongqiang.github.io/2018/03/12/读JavaScript高级程序设计之面向对象/" class="cy_cmt_count" data-xid="2018/03/12/读JavaScript高级程序设计之面向对象/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>面向对象（Object - Oriented）OO 是现在高级程序语言必备的技能，面向对象一般封装,继承,多态等特性，JavaScript不是高级语言，但也用自己的方式实现了面向对象的部分功能。</p>
+<p>ECMA-262把对象定义为 <strong>无序属性的集合，其属性可以包含基本值、对象、或者函数</strong>—–JavaScript的对象在我们看来就是一个键值对，值可以是数据或函数。下面我们讨论在ES6之前的对象和继承的实现。</p>
+<h2 id="理解对象"><a href="#理解对象" class="headerlink" title="理解对象"></a>理解对象</h2><p>我们来创建一个对象万能的Person</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">person.name = <span class="string">"lee"</span>;</span><br><span class="line">person.age = <span class="number">16</span>;</span><br><span class="line">person.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>变形后：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person=&#123;</span><br><span class="line">  name:<span class="string">'lee'</span>,</span><br><span class="line">  age:<span class="number">16</span>,</span><br><span class="line">  sayName:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/12/读JavaScript高级程序设计之面向对象/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2018/03/08/读JavaScript高级程序设计之js中如何判断类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/08/读JavaScript高级程序设计之js中如何判断类型/" itemprop="url">读JavaScript高级程序设计之js中如何判断类型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-08T09:13:47+08:00">
+                2018-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/03/08/读JavaScript高级程序设计之js中如何判断类型/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://leehongqiang.github.io/2018/03/08/读JavaScript高级程序设计之js中如何判断类型/" class="cy_cmt_count" data-xid="2018/03/08/读JavaScript高级程序设计之js中如何判断类型/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在很多情况下我都要对不同类型的数据做不同的处理</p>
+<p>首先我们看看数据类型有那些</p>
+<p>在JavaScript中数据类型分为2大类 <strong>基本类型</strong> 和 <strong>引用类型</strong></p>
+<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>Underfine Uull Number String Boolean</p>
+<h3 id="检查是否是基本类型"><a href="#检查是否是基本类型" class="headerlink" title="检查是否是基本类型"></a>检查是否是基本类型</h3><p>typeof 就能搞定</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="string">'string'</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">var</span> i = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> u;</span><br><span class="line"><span class="keyword">var</span> n =<span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> s);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> b);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> i);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> u);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> n);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> o);</span><br><span class="line"></span><br><span class="line"><span class="comment">//string</span></span><br><span class="line"><span class="comment">//boolean</span></span><br><span class="line"><span class="comment">//number</span></span><br><span class="line"><span class="comment">//undefined</span></span><br><span class="line"><span class="comment">//object</span></span><br><span class="line"><span class="comment">//object</span></span><br></pre></td></tr></table></figure>
+<h2 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h2><p>引用类型通常叫做类（class），也就是说，遇到引用值，所处理的就是对象。<br>Object Function Array 等对象。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/08/读JavaScript高级程序设计之js中如何判断类型/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2018/03/05/vue-router路由懒加载/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/05/vue-router路由懒加载/" itemprop="url">vue-router路由懒加载</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T13:36:33+08:00">
+                2018-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/03/05/vue-router路由懒加载/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://leehongqiang.github.io/2018/03/05/vue-router路由懒加载/" class="cy_cmt_count" data-xid="2018/03/05/vue-router路由懒加载/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>用vue.js写单页面应用时，会出现打包后的JavaScript包非常大，影响页面加载，我们可以利用路由的懒加载去优化这个问题，当我们用到某个路由后，才去加载对应的组件，这样就会更加高效，实现代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> Router <span class="keyword">from</span> <span class="string">'vue-router'</span></span><br><span class="line"></span><br><span class="line">Vue.use(Router)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Router(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/'</span>,</span><br><span class="line">      component: <span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">require</span>([<span class="string">'components/Hello.vue'</span>], resolve)</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        path: <span class="string">'/about'</span>,</span><br><span class="line">        component: <span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">require</span>([<span class="string">'components/About.vue'</span>], resolve)</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><strong>如果对您有所帮助或者对博主有更多的话说，欢迎你去我的GitHub留下一个您的start和issues</strong></p>
+<p><strong><a href="https://github.com/leehongqiang/leehongqiang.github.io" target="_blank" rel="noopener">前往LEE的github给他一个Start鼓励一下吧</a></strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2017/12/16/前端中的SRC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/16/前端中的SRC/" itemprop="url">前端中IMG的SRC</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-16T09:27:09+08:00">
+                2017-12-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/12/16/前端中的SRC/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://leehongqiang.github.io/2017/12/16/前端中的SRC/" class="cy_cmt_count" data-xid="2017/12/16/前端中的SRC/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在一次H5项目中img标签导致了IOS上内存溢出，后果就是APP崩溃</p>
+<p>在一次次排查过程中终于定位到了IMG标签</p>
+<p>我们来看看我们常用的媒体标签有：</p>
+<p>audio</p>
+<p>video</p>
+<p>img</p>
+<p>最终发现导致崩溃的原因是：</p>
+<p>img 标签 在设置src后会去下载全部数据文件（这个当然没问题）</p>
+<p>但是错误的发生就是在设置src图片时，我们将一个MP4文件设置成了img的src，我们这个文件有3个多小时，不难想象一台手机的内存只有那么多，肯定崩溃</p>
+<h2 id="特立此文以示警告！"><a href="#特立此文以示警告！" class="headerlink" title="特立此文以示警告！"></a>特立此文以示警告！</h2><p><strong>如果对您有所帮助或者对博主有更多的话说，欢迎你去我的GitHub留下一个您的start和issues</strong></p>
+<p><strong><a href="https://github.com/leehongqiang/leehongqiang.github.io" target="_blank" rel="noopener">前往LEE的github给他一个Start鼓励一下吧</a></strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2017/10/17/webpack学习记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/17/webpack学习记录/" itemprop="url">webpack学习记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-17T09:42:50+08:00">
+                2017-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/10/17/webpack学习记录/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://leehongqiang.github.io/2017/10/17/webpack学习记录/" class="cy_cmt_count" data-xid="2017/10/17/webpack学习记录/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近在学习webpack3.0特记录一下</p>
+<h2 id="目录结构："><a href="#目录结构：" class="headerlink" title="目录结构："></a>目录结构：</h2><p><img src="https://leehongqiang.github.io/images/webpack_img.jpg" alt="目录结构"><br>dist : 打包后的文件了存储路径，在上线时提供的项目目录<br>node_modules ： 开发时依赖和插件安装目录，node提供<br>src ： 开发时代码编辑区<br>.babelrc: babel 配置<br>package.json ：node依赖包<br>postcss.config.js：css前缀配置文件<br>webpack_config.js : 单独提出的webpack配置文件<br>webpack.config.js：webpack工程配置文件<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/10/17/webpack学习记录/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2017/08/23/关于sort()函数排序问题的解决/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/23/关于sort()函数排序问题的解决/" itemprop="url">关于sort()函数排序问题的解决</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-23T09:25:06+08:00">
+                2017-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/08/23/关于sort()函数排序问题的解决/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://leehongqiang.github.io/2017/08/23/关于sort()函数排序问题的解决/" class="cy_cmt_count" data-xid="2017/08/23/关于sort()函数排序问题的解决/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>sort() 方法用于对数组的元素进行排序。</p>
+<h3 id="问题：如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序"><a href="#问题：如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序" class="headerlink" title="问题：如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序"></a>问题：如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序</h3><p>比如：[‘1’,’41’,’4’,’10’]</p>
+<p>排序的结果为：[‘1’,’10’,’4’,’41’]</p>
+<p>他是按照字母顺序进行排序，所以会出现这个问题</p>
+<p>在 <a href="http://www.w3school.com.cn/jsref/jsref_sort.asp" target="_blank" rel="noopener">W3C</a>上有这么一句话：</p>
+<p>如果想按照其他标准进行排序，就需要提供比较函数，该函数要比较两个值，然后返回一个用于说明这两个值的相对顺序的数字。比较函数应该具有两个参数 a 和 b，其返回值如下：</p>
+<ul>
+<li><p>若 a 小于 b，在排序后的数组中 a 应该出现在 b 之前，则返回一个小于 0 的值。</p>
+</li>
+<li><p>若 a 等于 b，则返回 0。</p>
+</li>
+<li><p>若 a 大于 b，则返回一个大于 0 的值。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="string">'1'</span>,<span class="string">'10'</span>,<span class="string">'4'</span>,<span class="string">'41'</span>];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sortNumber</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a-b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">arr.sort(sortnumber);</span><br></pre></td></tr></table></figure>
+<p>另外还有一种数组对象的进行按字段排序：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr =[</span><br><span class="line">  &#123;<span class="attr">name</span>:<span class="string">'lee'</span>,<span class="attr">age</span>:<span class="number">32</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">name</span>:<span class="string">'wang'</span>,<span class="attr">age</span>:<span class="number">30</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">name</span>:<span class="string">'zhang'</span>,<span class="attr">age</span>:<span class="number">21</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">name</span>:<span class="string">'xiao'</span>,<span class="attr">age</span>:<span class="number">45</span>&#125;</span><br><span class="line">]</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* array[数组]</span></span><br><span class="line"><span class="comment">* key[string] 通过什么字段进行排序</span></span><br><span class="line"><span class="comment">* order[number] 1从大到小，-1或者不传 从小到大</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sortByKey</span>(<span class="params">array,key</span>)</span>&#123;</span><br><span class="line">   <span class="keyword">if</span>(!order || order == <span class="number">-1</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> array.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> x=<span class="built_in">parseInt</span>(a[key]);</span><br><span class="line">        <span class="keyword">var</span> y=<span class="built_in">parseInt</span>(b[key]);</span><br><span class="line">        <span class="keyword">return</span> ((x&lt;y)?<span class="number">-1</span>:((x&gt;y)?<span class="number">1</span>:<span class="number">0</span>));</span><br><span class="line">     &#125;);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(order == <span class="number">1</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> array.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> x=<span class="built_in">parseInt</span>(a[key]);</span><br><span class="line">        <span class="keyword">var</span> y=<span class="built_in">parseInt</span>(b[key]);</span><br><span class="line">        <span class="keyword">return</span> ((x&gt;y)?<span class="number">-1</span>:((x&lt;y)?<span class="number">1</span>:<span class="number">0</span>));</span><br><span class="line">     &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> newArr = sortByKey(arr,<span class="string">'age'</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>如果对您有所帮助或者对博主有更多的话说，欢迎你去我的GitHub留下一个您的start和issues</strong></p>
+<p><strong><a href="https://github.com/leehongqiang/leehongqiang.github.io" target="_blank" rel="noopener">前往LEE的github给他一个Start鼓励一下吧</a></strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2017/07/24/通过递归的方式解决ajax循环请求的问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/24/通过递归的方式解决ajax循环请求的问题/" itemprop="url">通过递归的方式解决ajax循环请求的问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-24T17:08:13+08:00">
+                2017-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/07/24/通过递归的方式解决ajax循环请求的问题/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://leehongqiang.github.io/2017/07/24/通过递归的方式解决ajax循环请求的问题/" class="cy_cmt_count" data-xid="2017/07/24/通过递归的方式解决ajax循环请求的问题/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>  最近在做音乐类型的H5页面，音乐数据后台发布只提供了ID，然后针对ID进行发送ajax请求，往往我们在做H5应用的时候，ID都是一个列表，要展示一个列表的音乐，这个时候遇到了一个问题 :</p>
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><p>ajax请求还没返回数据，循环已经完成，导致在我们绑定DOM事件的时候DOM还没生成无法绑定事件。</p>
+<h3 id="开始的代码："><a href="#开始的代码：" class="headerlink" title="开始的代码："></a>开始的代码：</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dataArry = [<span class="number">1111</span>,<span class="number">2222</span>,<span class="number">3333</span>,<span class="number">4444</span>,<span class="number">5555</span>]</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loopDate</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> h = <span class="string">''</span>;</span><br><span class="line">  $.map(dataArry, <span class="function"><span class="keyword">function</span>(<span class="params">item, index</span>) </span>&#123;</span><br><span class="line">    $.get(<span class="string">"loadAjax"</span>, &#123; <span class="attr">item</span>:item &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>&#123;</span><br><span class="line">       h+=<span class="string">'&lt;span&gt;&lt;/span&gt;'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    $(<span class="string">'#music-info'</span>).html(h);</span><br><span class="line">    $(<span class="string">'span'</span>).on(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="comment">//TODO</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">loopDate()</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/07/24/通过递归的方式解决ajax循环请求的问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2017/06/26/关于Flex布局在开发过程中使用的总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/26/关于Flex布局在开发过程中使用的总结/" itemprop="url">关于Flex布局在开发过程中使用的总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T10:22:40+08:00">
+                2017-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/06/26/关于Flex布局在开发过程中使用的总结/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://leehongqiang.github.io/2017/06/26/关于Flex布局在开发过程中使用的总结/" class="cy_cmt_count" data-xid="2017/06/26/关于Flex布局在开发过程中使用的总结/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Flex（弹性布局） 最近工作重心全部转移到了APP内H5开发，关于在H5开发过程中有很多的东西需要去总结，比如和原生的交互，字体布局对rem的使用，布局过程中大量支持的Flex布局的运用。在之前的开发过程中，大多数的使用都是在PC网站上由于要兼容IE等多浏览器的版本，不能用上Flex布局！在App中我们采用了统一的webkit版本，这样我们就能放心的使用Flex布局了。</p>
+<p>下面记录下我在flex布局使用最多的几个属性，只用于记录，不用于探讨</p>
+<h2 id="Flex能够给任何一个容器（不管是块级还是行内都OK）"><a href="#Flex能够给任何一个容器（不管是块级还是行内都OK）" class="headerlink" title="Flex能够给任何一个容器（不管是块级还是行内都OK）"></a>Flex能够给任何一个容器（不管是块级还是行内都OK）</h2><h2 id="开发过程中常用的属性："><a href="#开发过程中常用的属性：" class="headerlink" title="开发过程中常用的属性："></a>开发过程中常用的属性：</h2><ul>
+<li>display:flex : 给容器添加flex布局</li>
+<li>justify-content ：用于左右对齐方式<ol>
+<li>flex-start ：默认值。项目（子元素）位于容器的开头。</li>
+<li>flex-end： 项目（子元素）位于容器的结尾。</li>
+<li>center：项目（子元素）位于容器的中心。</li>
+<li>space-between: 项目（子元素）位于各行之间留有空白的容器内。各个项目之间的空白距离相等。首尾<font color="red" size="4">不填充</font>空白</li>
+<li>space-around：项目（子元素）位于各行之间留有空白的容器内。各个项目之间的空白距离相等。首尾<font color="red" size="4">填充</font>空白空白</li>
+</ol>
+</li>
+<li>align-items :用于上下对齐方式<ol>
+<li>stretch: 默认值。项目被拉伸以适应容器。</li>
+<li>center: 项目位于容器的中心。</li>
+<li>flex-start:    项目位于容器的开头。</li>
+<li>flex-end： 项目位于容器的结尾。</li>
+<li>baseline：项目位于容器的基线上。</li>
+</ol>
+</li>
+<li>flex-flow ：flex-direction flex-wrap 的简写flex-direction定义弹性盒子元素的排列方向。flex-wrap 控制flex容器是单行或者多行。<ol>
+<li>row wrap: 以行进行展示并且自动换行</li>
+</ol>
+</li>
+<li>flex-direction ：<ol>
+<li>row：主轴与行内轴方向作为默认的书写模式。即横向从左到右排列（左对齐）。</li>
+<li>row-reverse：对齐方式与row相反。</li>
+<li>column：主轴与块轴方向作为默认的书写模式。即纵向从上往下排列（顶对齐）。</li>
+<li>column-reverse：对齐方式与column相反。</li>
+</ol>
+</li>
+<li>flex-wrap：<ol>
+<li>nowrap : flex容器为单行。该情况下flex子项可能会溢出容器</li>
+<li>wrap：flex容器为多行。该情况下flex子项溢出的部分会被放置到新行，子项内部会发生断行</li>
+<li>wrap-reverse：反转 wrap 排列。</li>
+</ol>
+</li>
+</ul>
+<h2 id="以上就是在APP-H5过程中使用Flex布局的时候使用到的一些属性。"><a href="#以上就是在APP-H5过程中使用Flex布局的时候使用到的一些属性。" class="headerlink" title="以上就是在APP H5过程中使用Flex布局的时候使用到的一些属性。"></a>以上就是在APP H5过程中使用Flex布局的时候使用到的一些属性。</h2><p><strong>如果对您有所帮助或者对博主有更多的话说，欢迎你去我的GitHub留下一个您的start和issues</strong></p>
+<p><strong><a href="https://github.com/leehongqiang/leehongqiang.github.io" target="_blank" rel="noopener">前往LEE的github给他一个Start鼓励一下吧</a></strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="LEE" />
+          <p class="site-author-name" itemprop="name">LEE</p>
+           
+              <p class="site-description motion-element" itemprop="description">毕业后先后从事测试和前端开发工作！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives">
+            
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/leehongqiang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LEE</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyskFJqUw"></script>
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</body>
+</html>

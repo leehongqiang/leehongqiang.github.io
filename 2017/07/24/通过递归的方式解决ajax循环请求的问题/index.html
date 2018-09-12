@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="问题描述  最近在做音乐类型的H5页面，音乐数据后台发布只提供了ID，然后针对ID进行发送ajax请求，往往我们在做H5应用的时候，ID都是一个列表，要展示一个列表的音乐，这个时候遇到了一个问题 : 问题：ajax请求还没返回数据，循环已经完成，导致在我们绑定DOM事件的时候DOM还没生成无法绑定事件。 开始的代码：1234567891011121314var dataArry = [1111,2">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过递归的方式解决ajax循环请求的问题">
+<meta property="og:url" content="https://leehongqiang.github.io/2017/07/24/通过递归的方式解决ajax循环请求的问题/index.html">
+<meta property="og:site_name" content="前端分享">
+<meta property="og:description" content="问题描述  最近在做音乐类型的H5页面，音乐数据后台发布只提供了ID，然后针对ID进行发送ajax请求，往往我们在做H5应用的时候，ID都是一个列表，要展示一个列表的音乐，这个时候遇到了一个问题 : 问题：ajax请求还没返回数据，循环已经完成，导致在我们绑定DOM事件的时候DOM还没生成无法绑定事件。 开始的代码：1234567891011121314var dataArry = [1111,2">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-20T01:04:07.093Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过递归的方式解决ajax循环请求的问题">
+<meta name="twitter:description" content="问题描述  最近在做音乐类型的H5页面，音乐数据后台发布只提供了ID，然后针对ID进行发送ajax请求，往往我们在做H5应用的时候，ID都是一个列表，要展示一个列表的音乐，这个时候遇到了一个问题 : 问题：ajax请求还没返回数据，循环已经完成，导致在我们绑定DOM事件的时候DOM还没生成无法绑定事件。 开始的代码：1234567891011121314var dataArry = [1111,2">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leehongqiang.github.io/2017/07/24/通过递归的方式解决ajax循环请求的问题/"/>
+
+
+
+
+
+  <title>通过递归的方式解决ajax循环请求的问题 | 前端分享</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?df7957c9a0e9fa27e2471c7827335fd4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">前端分享</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高效的工作就是自我驱动！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-thumbs-up"></i> <br />
+            
+            demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2017/07/24/通过递归的方式解决ajax循环请求的问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">通过递归的方式解决ajax循环请求的问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-24T17:08:13+08:00">
+                2017-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/07/24/通过递归的方式解决ajax循环请求的问题/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/07/24/通过递归的方式解决ajax循环请求的问题/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>  最近在做音乐类型的H5页面，音乐数据后台发布只提供了ID，然后针对ID进行发送ajax请求，往往我们在做H5应用的时候，ID都是一个列表，要展示一个列表的音乐，这个时候遇到了一个问题 :</p>
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><p>ajax请求还没返回数据，循环已经完成，导致在我们绑定DOM事件的时候DOM还没生成无法绑定事件。</p>
+<h3 id="开始的代码："><a href="#开始的代码：" class="headerlink" title="开始的代码："></a>开始的代码：</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dataArry = [<span class="number">1111</span>,<span class="number">2222</span>,<span class="number">3333</span>,<span class="number">4444</span>,<span class="number">5555</span>]</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loopDate</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> h = <span class="string">''</span>;</span><br><span class="line">  $.map(dataArry, <span class="function"><span class="keyword">function</span>(<span class="params">item, index</span>) </span>&#123;</span><br><span class="line">    $.get(<span class="string">"loadAjax"</span>, &#123; <span class="attr">item</span>:item &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>&#123;</span><br><span class="line">       h+=<span class="string">'&lt;span&gt;&lt;/span&gt;'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    $(<span class="string">'#music-info'</span>).html(h);</span><br><span class="line">    $(<span class="string">'span'</span>).on(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="comment">//TODO</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">loopDate()</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>上面的伪代码可能存在一些问题，我们先来解决，存在的问题就是会循环的绑定‘click’事件，意思就是时间重复绑定，如果要解决这个问题，我们用一个变量来判断，只在循环最后进行dom时间绑定：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dataArry = [<span class="number">1111</span>,<span class="number">2222</span>,<span class="number">3333</span>,<span class="number">4444</span>,<span class="number">5555</span>]</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loopDate</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> h = <span class="string">''</span>;</span><br><span class="line">  <span class="keyword">var</span> cont = <span class="number">0</span>；</span><br><span class="line">  $.map(dataArry, <span class="function"><span class="keyword">function</span>(<span class="params">item, index</span>) </span>&#123;</span><br><span class="line">    $.get(<span class="string">"loadAjax"</span>, &#123; <span class="attr">item</span>:item &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>&#123;</span><br><span class="line">       h+=<span class="string">'&lt;span&gt;&lt;/span&gt;'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    $(<span class="string">'#music-info'</span>).html(h);</span><br><span class="line">    <span class="keyword">if</span>(count == dataArrt.length - <span class="number">1</span>)&#123;<span class="comment">//解决重复绑定的问题</span></span><br><span class="line">      $(<span class="string">'span'</span>).on(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//TODO</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">loopDate()</span><br></pre></td></tr></table></figure>
+<p>上面的代码当我们运行的时候并不能正确的插入到页面中“span”标签并没有插入到页面，从而绑定事件就无从说起了</p>
+<h3 id="解决方案1："><a href="#解决方案1：" class="headerlink" title="解决方案1："></a>解决方案1：</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dataArry = [<span class="number">1111</span>,<span class="number">2222</span>,<span class="number">3333</span>,<span class="number">4444</span>,<span class="number">5555</span>]</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loopDate</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> h = <span class="string">''</span>;</span><br><span class="line">  <span class="keyword">var</span> count = <span class="number">0</span></span><br><span class="line">  $.map(dataArry, <span class="function"><span class="keyword">function</span>(<span class="params">item, index</span>) </span>&#123;</span><br><span class="line">    $.get(<span class="string">"loadAjax"</span>, &#123; <span class="attr">item</span>:item &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>&#123;</span><br><span class="line">       h+=<span class="string">'&lt;span&gt;&lt;/span&gt;'</span>;</span><br><span class="line">       <span class="keyword">if</span>(count == dataArrt.length - <span class="number">1</span>)&#123;<span class="comment">//解决重复绑定的问题</span></span><br><span class="line">        $(<span class="string">'#music-info'</span>).html(h);</span><br><span class="line">        $(<span class="string">'span'</span>).on(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//TODO</span></span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">      count++</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">loopDate()</span><br></pre></td></tr></table></figure>
+<p>我们将 $(‘#music-info’).html(h) 放在请求里面,注意这种方法有一个问题，就是dom会随机的绑定比如可能存在的问题比如：</p>
+<p>11111</p>
+<p>22222</p>
+<p>44444</p>
+<p>33333</p>
+<p>55555</p>
+<p>还有一个问题就是代码也不清晰，并且重复的操作DOM插入影响性能。</p>
+<p>这并不是我们想要的，在我们做音乐的过程中可能对用户数据排列要求不高的话，可以这样做，要是我们在做排行榜类似的应用的时候我们就不能这么做了</p>
+<h3 id="解决方案2：运用递归"><a href="#解决方案2：运用递归" class="headerlink" title="解决方案2：运用递归"></a>解决方案2：运用递归</h3><p>正好我们有一个count是为了解决重复绑定的问题，我们将其提出去<br>然后我们把循环去掉，就变成这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dataArry = [<span class="number">1111</span>,<span class="number">2222</span>,<span class="number">3333</span>,<span class="number">4444</span>,<span class="number">5555</span>]；</span><br><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> h = <span class="string">''</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loopDate</span>(<span class="params">count,dataArry</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (index &lt; array.length) &#123;</span><br><span class="line">      $.get(<span class="string">"loadAjax"</span>, &#123; <span class="attr">item</span>:item &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>&#123;</span><br><span class="line">          h+=<span class="string">'&lt;span&gt;&lt;/span&gt;'</span>；</span><br><span class="line">          loopDate(count+<span class="number">1</span>,dataArry)</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">if</span>(count == dataArrt.length - <span class="number">1</span>)&#123;<span class="comment">//解决重复绑定的问题</span></span><br><span class="line">      &lt;!-等待所以数据加载完成后插入  --&gt;</span><br><span class="line">        $(<span class="string">'#music-info'</span>).html(h);</span><br><span class="line">        $(<span class="string">'span'</span>).on(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">          <span class="comment">//TODO</span></span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">loopDate(count,dataArry)</span><br></pre></td></tr></table></figure>
+<p>上面一种就是相对比较完善的解决方案！</p>
+<h3 id="解决方案3："><a href="#解决方案3：" class="headerlink" title="解决方案3："></a>解决方案3：</h3><p>我们知道在这里需要进行事件绑定，其实我们不用绑定到具体的DOM上，可以通过事件委托来进行处理具体的方案可以参考我之前的一篇文章：</p>
+<p><a href=":https://leehongqiang.github.io/2017/02/22/%E4%BD%BF%E7%94%A8%E4%BA%8B%E4%BB%B6%E4%BB%A3%E7%90%86%E6%9D%A5%E4%BC%98%E5%8C%96dom%E4%BA%8B%E4%BB%B6%E7%9A%84%E7%BB%91%E5%AE%9A/">使用事件代理来优化dom事件的绑定</a></p>
+<p><strong>如果对您有所帮助或者对博主有更多的话说，欢迎你去我的GitHub留下一个您的start和issues</strong></p>
+<p><strong><a href="https://github.com/leehongqiang/leehongqiang.github.io" target="_blank" rel="noopener">前往LEE的github给他一个Start鼓励一下吧</a></strong></p>
+<p>[原创转载请标注出处：<a href="https://leehongqiang.github.io]">https://leehongqiang.github.io]</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/26/关于Flex布局在开发过程中使用的总结/" rel="next" title="关于Flex布局在开发过程中使用的总结">
+                <i class="fa fa-chevron-left"></i> 关于Flex布局在开发过程中使用的总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/23/关于sort()函数排序问题的解决/" rel="prev" title="关于sort()函数排序问题的解决">
+                关于sort()函数排序问题的解决 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="LEE" />
+          <p class="site-author-name" itemprop="name">LEE</p>
+           
+              <p class="site-description motion-element" itemprop="description">毕业后先后从事测试和前端开发工作！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives">
+            
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/leehongqiang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题："><span class="nav-number">1.1.</span> <span class="nav-text">问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开始的代码："><span class="nav-number">1.2.</span> <span class="nav-text">开始的代码：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案1："><span class="nav-number">1.3.</span> <span class="nav-text">解决方案1：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案2：运用递归"><span class="nav-number">1.4.</span> <span class="nav-text">解决方案2：运用递归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案3："><span class="nav-number">1.5.</span> <span class="nav-text">解决方案3：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LEE</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyskFJqUw';
+      var conf = 'prod_e3833ede08caa7ad062442facd332875';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</body>
+</html>

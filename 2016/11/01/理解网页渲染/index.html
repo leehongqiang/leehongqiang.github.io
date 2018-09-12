@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="前端，性能优化," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="浏览器是怎样渲染一个页面的？我们从浏览器渲染页面的大概过程开始说起： 由从服务器接收到的 HTML 形成 DOM（文档对象模型）。样式被加载和解析，形成 CSSOM（CSS 对象模型）。紧接着 DOM 和 CSSOM 创建了一个渲染树，这个渲染树是一些被渲染对象的集合（ Webkit 分别叫它们”renderer”和”render object”，而在Gecko 引擎中叫”frame”）。除了不可">
+<meta name="keywords" content="前端，性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[转]理解网页渲染">
+<meta property="og:url" content="https://leehongqiang.github.io/2016/11/01/理解网页渲染/index.html">
+<meta property="og:site_name" content="前端分享">
+<meta property="og:description" content="浏览器是怎样渲染一个页面的？我们从浏览器渲染页面的大概过程开始说起： 由从服务器接收到的 HTML 形成 DOM（文档对象模型）。样式被加载和解析，形成 CSSOM（CSS 对象模型）。紧接着 DOM 和 CSSOM 创建了一个渲染树，这个渲染树是一些被渲染对象的集合（ Webkit 分别叫它们”renderer”和”render object”，而在Gecko 引擎中叫”frame”）。除了不可">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-20T01:02:15.224Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[转]理解网页渲染">
+<meta name="twitter:description" content="浏览器是怎样渲染一个页面的？我们从浏览器渲染页面的大概过程开始说起： 由从服务器接收到的 HTML 形成 DOM（文档对象模型）。样式被加载和解析，形成 CSSOM（CSS 对象模型）。紧接着 DOM 和 CSSOM 创建了一个渲染树，这个渲染树是一些被渲染对象的集合（ Webkit 分别叫它们”renderer”和”render object”，而在Gecko 引擎中叫”frame”）。除了不可">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leehongqiang.github.io/2016/11/01/理解网页渲染/"/>
+
+
+
+
+
+  <title>[转]理解网页渲染 | 前端分享</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?df7957c9a0e9fa27e2471c7827335fd4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">前端分享</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高效的工作就是自我驱动！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-thumbs-up"></i> <br />
+            
+            demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2016/11/01/理解网页渲染/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[转]理解网页渲染</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-01T10:03:08+08:00">
+                2016-11-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2016/11/01/理解网页渲染/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2016/11/01/理解网页渲染/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="浏览器是怎样渲染一个页面的？"><a href="#浏览器是怎样渲染一个页面的？" class="headerlink" title="浏览器是怎样渲染一个页面的？"></a>浏览器是怎样渲染一个页面的？</h2><p>我们从浏览器渲染页面的大概过程开始说起：</p>
+<p>由从服务器接收到的 HTML 形成 DOM（文档对象模型）。<br>样式被加载和解析，形成 CSSOM（CSS 对象模型）。<br>紧接着 DOM 和 CSSOM 创建了一个渲染树，这个渲染树是一些被渲染对象的集合（ Webkit 分别叫它们”renderer”和”render object”，而在Gecko 引擎中叫”frame”）。除了不可见的元素（比如 head 标签和一些有 display:none 属性的元素），渲染树映射了 DOM 的结构。在渲染树中，每一个文本字符串都被当做一个独立的 renderer。每个渲染对象都包含了与之对应的计算过样式的DOM 对象（或者一个文本块）。换句话说，渲染树描述了 DOM 的直观的表现形式。<br>对每个渲染元素来说，它的坐标是经过计算的，这被叫做“布局(layout)”。浏览器使用一种只需要一次处理的“流方法”来布局所有元素（tables需要多次处理）。<br>最后，将布局显示在浏览器窗口中，这个过程叫做“绘制(painting)”。</p>
+<a id="more"></a>
+<h3 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h3><p>当在页面上修改了一些不需要改变定位的样式的时候（比如background-color,border-color,visibility)，浏览器只会将新的样式重新绘制给元素（这就叫一次“重绘”或者“重新定义样式”）。</p>
+<h3 id="重排"><a href="#重排" class="headerlink" title="重排"></a>重排</h3><p>当页面上的改变影响了文档内容、结构或者元素定位时，就会发生重排（或称“重新布局”）。重排通常由以下改变触发：</p>
+<p>DOM 操作（如元素增、删、改或者改变元素顺序）。</p>
+<p>内容的改变，包括 Form 表单中文字的变化。</p>
+<p>计算或改变 CSS 属性。</p>
+<p>增加或删除一个样式表。</p>
+<p>改变”class”属性。</p>
+<p>浏览器窗口的操作（改变大小、滚动窗口）。</p>
+<p>激活伪类（如:hover状态）。</p>
+<h2 id="浏览器如何优化渲染？"><a href="#浏览器如何优化渲染？" class="headerlink" title="浏览器如何优化渲染？"></a>浏览器如何优化渲染？</h2><p>浏览器尽最大努力限制重排的过程仅覆盖已更改的元素的区域。举个例子，一个 position 为 absolue 或 fixed 的元素的大小变化只影响它自身和子孙元素，而对一个 position 为 static 的元素做同样的操作就会引起所有它后面元素的重排。</p>
+<p>另一个优化就是当运行一段javascript 代码的时候，浏览器会将一些修改缓存起来，然后当代码执行的时候，一次性的将这些修改执行。举例来说，这段代码会触发一次重绘和一次重排：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> $body = $(<span class="string">'body'</span>);</span><br><span class="line">$body.css(<span class="string">'padding'</span>, <span class="string">'1px'</span>); <span class="comment">// 重排, 重绘</span></span><br><span class="line">$body.css(<span class="string">'color'</span>, <span class="string">'red'</span>); <span class="comment">// 重绘</span></span><br><span class="line">$body.css(<span class="string">'margin'</span>, <span class="string">'2px'</span>); <span class="comment">// 重排, 重绘</span></span><br><span class="line"><span class="comment">// 实际上只有一次重排和重绘被执行。</span></span><br></pre></td></tr></table></figure>
+<p>如上面所说，访问一个元素的属性会进行一次强制重排。如果我们给上面的代码加上一行读取元素属性的代码，这个情况就会出现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> $body = $(<span class="string">'body'</span>);</span><br><span class="line">$body.css(<span class="string">'padding'</span>, <span class="string">'1px'</span>);</span><br><span class="line">$body.css(<span class="string">'padding'</span>); <span class="comment">// 这里读取了一次元素的属性，一次强制重排就会发生。</span></span><br><span class="line">$body.css(<span class="string">'color'</span>, <span class="string">'red'</span>);</span><br><span class="line">$body.css(<span class="string">'margin'</span>, <span class="string">'2px'</span>);</span><br></pre></td></tr></table></figure>
+<p>上面这段代码的结果就是，进行了两次重排。因此，为了提高性能，你应该讲读取元素属性的代码组织在一起（细节的例子可以看JSBin上的代码）。</p>
+<p>有一种情况是必须触发一次强制重排的。例如：给元素改变同一个属性两次（比如margin-left），一开始设置100px，没有动画，然后通过动画的形式将值改为50px。具体可以看例子，当然，我在这里会讲更多的细节。</p>
+<p>我们从一个有transition的CSS class开始：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.has-transition</span> &#123;</span><br><span class="line">   <span class="attribute">-webkit-transition</span>: margin-left <span class="number">1s</span> ease-out;</span><br><span class="line">      <span class="attribute">-moz-transition</span>: margin-left <span class="number">1s</span> ease-out;</span><br><span class="line">        <span class="attribute">-o-transition</span>: margin-left <span class="number">1s</span> ease-out;</span><br><span class="line">           <span class="attribute">transition</span>: margin-left <span class="number">1s</span> ease-out;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后进行实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//我们的元素默认有"has-transition"属性</span></span><br><span class="line"><span class="keyword">var</span> $targetElem = $(<span class="string">'#targetElemId'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除包含transition的class</span></span><br><span class="line">$targetElem.removeClass(<span class="string">'has-transition'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当包含transition的class已经没了的时候，改变元素属性</span></span><br><span class="line">$targetElem.css(<span class="string">'margin-left'</span>, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 再将包含transition的class添加回来</span></span><br><span class="line">$targetElem.addClass(<span class="string">'has-transition'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 改变元素属性</span></span><br><span class="line">$targetElem.css(<span class="string">'margin-left'</span>, <span class="number">50</span>);</span><br></pre></td></tr></table></figure>
+<p>上面的实现没有按照期望的运行。所有的修改都被浏览器缓存了，只在上面这段代码的最后才会执行。我们需要的是一次强制重排，我们可以通过进行以下修改来实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//删除包含transition的class</span></span><br><span class="line">$(<span class="keyword">this</span>).removeClass(<span class="string">'has-transition'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 改变元素属性</span></span><br><span class="line">$(<span class="keyword">this</span>).css(<span class="string">'margin-left'</span>, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//触发一次强制重排，从而使变化了的class或属性能够立即执行。</span></span><br><span class="line">$(<span class="keyword">this</span>)[<span class="number">0</span>].offsetHeight; <span class="comment">// offsetHeight仅仅是个例子，其他的属性也可以奏效。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 再将包含transition的class添加回来</span></span><br><span class="line">$(<span class="keyword">this</span>).addClass(<span class="string">'has-transition'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 改变元素属性</span></span><br><span class="line">$(<span class="keyword">this</span>).css(<span class="string">'margin-left'</span>, <span class="number">50</span>);</span><br></pre></td></tr></table></figure>
+<p>现在这段代码如我们所期望的运行了。</p>
+<h2 id="实际的优化建议"><a href="#实际的优化建议" class="headerlink" title="实际的优化建议"></a>实际的优化建议</h2><p>汇总了一些有用的信息，我建议以下几点：</p>
+<ul>
+<li><p>创建合法的 HTML 和 CSS ，别忘了制定文件编码，Style 应该写在 head 标签中，script 标签应该加载 body 标签结束的位置。</p>
+</li>
+<li><p>试着简化和优化 CSS 选择器（这个优化点被大多数使用 CSS 预处理器的开发者忽略了）。将嵌套层数控制在最小。以下是 CSS 选择器的性能排行（从最快的开始）：</p>
+</li>
+</ul>
+<ol>
+<li>ID选择器：#id</li>
+<li>class选择器： .class</li>
+<li>标签: div</li>
+<li>相邻的兄弟元素：a + i</li>
+<li>父元素选择器： ul &gt; li</li>
+<li>通配符选择器： *</li>
+<li>伪类和伪元素： a:hover，你应该记住浏览器处理选择器是从右向左的，这也就是为什么最右面的选择器会更快——#id或.class。</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">div * &#123;...&#125; // bad</span><br><span class="line">.list li &#123;...&#125; // bad</span><br><span class="line">.list-item &#123;...&#125; // good</span><br><span class="line">#list .list-item &#123;...&#125; // good</span><br></pre></td></tr></table></figure>
+<p>在你的脚本中，尽可能的减少 DOM的操作。把所有东西都缓存起来，包括属性和对象（如果它可被重复使用）。进行复杂的操作的时候，最好操作一个“离线”的元素（“离线”元素的意思是与 DOM 对象分开、仅存在内存中的元素），然后将这个元素插入到 DOM 中。</p>
+<ol>
+<li>如果你使用 jQuery，遵循jQuery 选择器最佳实践</li>
+<li>要改变元素的样式，修改“class”属性是最高效的方式之一。你要改变 DOM 树的层次越深，这一条就越高效（这也有助于将表现和逻辑分开）。</li>
+<li>尽可能的只对 position 为 absolute 或 fix 的元素做动画。</li>
+<li>当滚动时禁用一些复杂的 :hover 动画是一个很好的主意（例如，给 body 标签加一个 no-hover 的 class）关于这个主题的文章。</li>
+</ol>
+<p><strong>如果对您有所帮助或者对博主有更多的话说，欢迎你去我的GitHub留下一个您的start和issues</strong></p>
+<p><strong><a href="https://github.com/leehongqiang/leehongqiang.github.io" target="_blank" rel="noopener">前往LEE的github给他一个Start鼓励一下吧</a></strong></p>
+<p>转载自：<a href="http://blog.jobbole.com/72692/" target="_blank" rel="noopener">http://blog.jobbole.com/72692/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端，性能优化/" rel="tag"># 前端，性能优化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/27/ios原生定位转换为高德地图坐标/" rel="next" title="[原]ios原生定位转换为高德地图坐标">
+                <i class="fa fa-chevron-left"></i> [原]ios原生定位转换为高德地图坐标
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/19/网页加载和性能分析/" rel="prev" title="[转]网页加载和性能分析">
+                [转]网页加载和性能分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="LEE" />
+          <p class="site-author-name" itemprop="name">LEE</p>
+           
+              <p class="site-description motion-element" itemprop="description">毕业后先后从事测试和前端开发工作！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives">
+            
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/leehongqiang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器是怎样渲染一个页面的？"><span class="nav-number">1.</span> <span class="nav-text">浏览器是怎样渲染一个页面的？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重绘"><span class="nav-number">1.1.</span> <span class="nav-text">重绘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重排"><span class="nav-number">1.2.</span> <span class="nav-text">重排</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器如何优化渲染？"><span class="nav-number">2.</span> <span class="nav-text">浏览器如何优化渲染？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际的优化建议"><span class="nav-number">3.</span> <span class="nav-text">实际的优化建议</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LEE</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyskFJqUw';
+      var conf = 'prod_e3833ede08caa7ad062442facd332875';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</body>
+</html>

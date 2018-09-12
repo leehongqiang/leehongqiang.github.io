@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="工具," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="原文链接 原文链接似乎翻墙才可以访问 译者：neal  Chrome内嵌开发者工具。它具有丰富的功能特色，比如元素，网络以及安全。今天，我们将完全关注javascript的console. 当我才开始编程的时候，我只是将console用作纪录服务器的响应。但是后来经过一些教学的帮助，我开始发现console可以做的更多。 在这我们讲一些你可以用console做更多有用的事情。如果你是用chrom">
+<meta name="keywords" content="工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[转]你可能不知道谷歌浏览器开发工具的其他用处">
+<meta property="og:url" content="https://leehongqiang.github.io/2016/09/18/你可能不知道谷歌浏览器开发工具的其他用处.1/index.html">
+<meta property="og:site_name" content="前端分享">
+<meta property="og:description" content="原文链接 原文链接似乎翻墙才可以访问 译者：neal  Chrome内嵌开发者工具。它具有丰富的功能特色，比如元素，网络以及安全。今天，我们将完全关注javascript的console. 当我才开始编程的时候，我只是将console用作纪录服务器的响应。但是后来经过一些教学的帮助，我开始发现console可以做的更多。 在这我们讲一些你可以用console做更多有用的事情。如果你是用chrom">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://d262ilb51hltx0.cloudfront.net/max/1200/1*x-ygabMZbtYHH0mhGVaWbQ.png">
+<meta property="og:image" content="https://d262ilb51hltx0.cloudfront.net/max/1200/1*ZYcW2PoXTIjz3oAUmdu58w.png">
+<meta property="og:image" content="https://d262ilb51hltx0.cloudfront.net/max/1200/1*ODDvO9nnwEWyl1OqaZwifw.png">
+<meta property="og:updated_time" content="2018-04-20T00:59:44.358Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[转]你可能不知道谷歌浏览器开发工具的其他用处">
+<meta name="twitter:description" content="原文链接 原文链接似乎翻墙才可以访问 译者：neal  Chrome内嵌开发者工具。它具有丰富的功能特色，比如元素，网络以及安全。今天，我们将完全关注javascript的console. 当我才开始编程的时候，我只是将console用作纪录服务器的响应。但是后来经过一些教学的帮助，我开始发现console可以做的更多。 在这我们讲一些你可以用console做更多有用的事情。如果你是用chrom">
+<meta name="twitter:image" content="https://d262ilb51hltx0.cloudfront.net/max/1200/1*x-ygabMZbtYHH0mhGVaWbQ.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leehongqiang.github.io/2016/09/18/你可能不知道谷歌浏览器开发工具的其他用处.1/"/>
+
+
+
+
+
+  <title>[转]你可能不知道谷歌浏览器开发工具的其他用处 | 前端分享</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?df7957c9a0e9fa27e2471c7827335fd4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">前端分享</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高效的工作就是自我驱动！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-thumbs-up"></i> <br />
+            
+            demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2016/09/18/你可能不知道谷歌浏览器开发工具的其他用处.1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[转]你可能不知道谷歌浏览器开发工具的其他用处</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-18T10:03:08+08:00">
+                2016-09-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2016/09/18/你可能不知道谷歌浏览器开发工具的其他用处.1/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2016/09/18/你可能不知道谷歌浏览器开发工具的其他用处.1/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li><a href="https://medium.freecodecamp.com/10-tips-to-maximize-your-javascript-debugging-experience-b69a75859329#.20eb3ho5g" target="_blank" rel="noopener">原文链接</a> 原文链接似乎翻墙才可以访问</li>
+<li>译者：<a href="http://neal1991.pythonwhere.com" target="_blank" rel="noopener">neal</a></li>
+</ul>
+<p>Chrome内嵌开发者工具。它具有丰富的功能特色，比如元素，网络以及安全。今天，我们将完全关注javascript的console.</p>
+<p>当我才开始编程的时候，我只是将console用作纪录服务器的响应。但是后来经过一些教学的帮助，我开始发现console可以做的更多。</p>
+<p>在这我们讲一些你可以用console做更多有用的事情。如果你是用chrome浏览这篇文章，你可以马上就试试效果。<br><a id="more"></a></p>
+<h3 id="1-选择节点元素"><a href="#1-选择节点元素" class="headerlink" title="1. 选择节点元素"></a>1. 选择节点元素</h3><p>如果你熟悉jquery的话，你应该知道<code>$(&#39;.class&#39;)</code>和<code>$(&#39;#id&#39;)</code>事多的么的重要。你可以根据id或者类名选择相应的元素。</p>
+<p>同样你可以在console使用同样的方式来访问元素。<code>$(&#39;tagName&#39;) $(&#39;.class&#39;) $(&#39;#id&#39;)</code>和<code>document.querySelector(&#39;&#39;)</code>是等同的。这个将返回文档中第一个匹配这个选择器的元素。</p>
+<p>你可以用<code>$$(&#39;tagName&#39;)</code>来访问，注意这边的两个美元符号可以访问所有符合这个选择器的元素。这些元素会组成一个数组</p>
+<p><img src="https://d262ilb51hltx0.cloudfront.net/max/1200/1*x-ygabMZbtYHH0mhGVaWbQ.png" alt="developer console"></p>
+<h3 id="2-将你的浏览器转化成一个编辑器"><a href="#2-将你的浏览器转化成一个编辑器" class="headerlink" title="2.将你的浏览器转化成一个编辑器"></a>2.将你的浏览器转化成一个编辑器</h3><p>你是否想过可以直接在浏览器中直接编辑？答案是肯定的，你可以将你的浏览器转化成一个文本编辑工具。你可以在dom元素中任意添加或者删除文本。</p>
+<p>你不需要检测html中的元素。取而代之，你只要去console里面输入以下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.contentEditable = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-寻找dom中元素绑定的事件"><a href="#3-寻找dom中元素绑定的事件" class="headerlink" title="3.寻找dom中元素绑定的事件"></a>3.寻找dom中元素绑定的事件</h3><p>当调试的时候你可能希望知道dom元素中绑定的事件。console工具能使你很轻松就找到这些事件。<code>getEventListeners($(&#39;selector&#39;))</code>将会返回一个数组包含所有事件的对象。你可以展开这个对象看到所有的事件：</p>
+<p><img src="https://d262ilb51hltx0.cloudfront.net/max/1200/1*ZYcW2PoXTIjz3oAUmdu58w.png" alt="events"></p>
+<p>如果希望找到某个特定事件的监听，你可以这么做：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getEventListeners($(<span class="string">'selector'</span>)).eventName[<span class="number">0</span>].listener</span><br></pre></td></tr></table></figure>
+<p>这将展示所有和这个事件相关的监听。比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getEventListeners($(<span class="string">'.firstName'</span>)).click[<span class="number">0</span>].listener</span><br></pre></td></tr></table></figure>
+<h3 id="4-监听事件"><a href="#4-监听事件" class="headerlink" title="4.监听事件"></a>4.监听事件</h3><p>如果你想监听特定元素绑定的事件的时候，你也可以在console里面这么做。你可以使用以下的这些命名：</p>
+<ul>
+<li><code>monitorEvents($(&#39;selector&#39;))</code>将会监听符合这个选择器的元素的所有事件，并且将会显示这些事件当事件被触发的时候。</li>
+<li><code>monitorEvents($(&#39;selector&#39;),&#39;eventName&#39;)</code>将会监听符合这个选择器的特定事件。你可以将事件的名称作为一个参数传入到这个函数中。</li>
+<li><code>monitorEvents($(&#39;selector&#39;),[&#39;eventName1&#39;,&#39;eventName2&#39;….])</code>将会监听符合这个选择器的事件。</li>
+<li><code>unmonitorEvents($(&#39;selector&#39;))</code>这个会停止监听并且在console里面显示出所有的事件。</li>
+</ul>
+<h3 id="5-找到语句块执行的时间"><a href="#5-找到语句块执行的时间" class="headerlink" title="5.找到语句块执行的时间"></a>5.找到语句块执行的时间</h3><p>console里面有一个很重要的函数叫做<code>console.time(&#39;labelTime&#39;)</code>能够启动一个计时器。另外又一个函数叫做<code>console.timeEnd(&#39;labelName&#39;)</code>能够结束相应的计时器。</p>
+<p>比如我们想看到一个循环的执行时间，我们可以做如下处理：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.time(<span class="string">'myTime'</span>); <span class="comment">//Starts the timer with label - myTime</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; <span class="number">100000</span>; i++)&#123;</span><br><span class="line">  <span class="number">2</span>+<span class="number">4</span>+<span class="number">5</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.timeEnd(<span class="string">'mytime'</span>); <span class="comment">//Ends the timer with Label - myTime</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Output - myTime:12345.00 ms</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-将变量的值以表格形式呈现"><a href="#6-将变量的值以表格形式呈现" class="headerlink" title="6.将变量的值以表格形式呈现"></a>6.将变量的值以表格形式呈现</h3><p>当我们有如下的一个数组的时候：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myArray=[&#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>,<span class="attr">c</span>:<span class="number">3</span>&#125;,&#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>,<span class="attr">c</span>:<span class="number">3</span>,<span class="attr">d</span>:<span class="number">4</span>&#125;,&#123;<span class="attr">k</span>:<span class="number">11</span>,<span class="attr">f</span>:<span class="number">22</span>&#125;,&#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>,<span class="attr">c</span>:<span class="number">3</span>&#125;]</span><br></pre></td></tr></table></figure>
+<p>我们可以使用<code>console.table(variableName)</code>从而以表格的形式更好地展现数据的属性。</p>
+<p><img src="https://d262ilb51hltx0.cloudfront.net/max/1200/1*ODDvO9nnwEWyl1OqaZwifw.png" alt="table"></p>
+<h3 id="7-在dom中检测元素"><a href="#7-在dom中检测元素" class="headerlink" title="7.在dom中检测元素"></a>7.在dom中检测元素</h3><p>你可以直接在console里面检测元素：</p>
+<ul>
+<li><code>inspect($(&#39;selector&#39;))</code>将会检测符合这个在选择器的元素并且会跳转到匹配这个选择器的dom中。</li>
+<li><code>$0,$1,$2</code>能够帮助你检测最近检测过的元素。</li>
+</ul>
+<h3 id="8-列出与纳素的属性"><a href="#8-列出与纳素的属性" class="headerlink" title="8.列出与纳素的属性"></a>8.列出与纳素的属性</h3><p>如果你希望列出元素所有的属性，你可以直接在console里面输入<code>dir($(&#39;selector&#39;))</code>返回dom元素中的相关属性。</p>
+<h3 id="9-取到上次最近结果的值"><a href="#9-取到上次最近结果的值" class="headerlink" title="9.取到上次最近结果的值"></a>9.取到上次最近结果的值</h3><p>你可以把console当作一个计算器来时用。你可以使用<code>$_</code>来获取最近的结果。如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>+<span class="number">3</span>+<span class="number">4</span></span><br><span class="line"><span class="number">9</span> <span class="comment">//- The Answer of the SUM is 9</span></span><br><span class="line"></span><br><span class="line">$_</span><br><span class="line"><span class="number">9</span> <span class="comment">// Gives the last Result</span></span><br><span class="line"></span><br><span class="line">$_ * $_</span><br><span class="line"><span class="number">81</span>  <span class="comment">// As the last Result was 9</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Math</span>.sqrt($_)</span><br><span class="line"><span class="number">9</span> <span class="comment">// As the last Result was 81</span></span><br><span class="line"></span><br><span class="line">$_</span><br><span class="line"><span class="number">9</span> <span class="comment">// As the Last Result is 9</span></span><br></pre></td></tr></table></figure>
+<h3 id="10-清楚cosole和缓存"><a href="#10-清楚cosole和缓存" class="headerlink" title="10.清楚cosole和缓存"></a>10.清楚cosole和缓存</h3><p>如果你希望清楚console和它的缓存，你可以输入<code>clear()</code>就可以了。</p>
+<p><strong>如果对您有所帮助或者对博主有更多的话说，欢迎你去我的GitHub留下一个您的start和issues</strong></p>
+<p><strong><a href="https://github.com/leehongqiang/leehongqiang.github.io" target="_blank" rel="noopener">前往LEE的github给他一个Start鼓励一下吧</a></strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" rel="tag"># 工具</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/17/高德地图ES6封装/" rel="next" title="[原]高德地图ES6封装">
+                <i class="fa fa-chevron-left"></i> [原]高德地图ES6封装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/25/手机前端开发调试利器 – vConsole/" rel="prev" title="手机前端开发调试利器 – vConsole">
+                手机前端开发调试利器 – vConsole <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="LEE" />
+          <p class="site-author-name" itemprop="name">LEE</p>
+           
+              <p class="site-description motion-element" itemprop="description">毕业后先后从事测试和前端开发工作！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives">
+            
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/leehongqiang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-选择节点元素"><span class="nav-number">1.</span> <span class="nav-text">1. 选择节点元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-将你的浏览器转化成一个编辑器"><span class="nav-number">2.</span> <span class="nav-text">2.将你的浏览器转化成一个编辑器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-寻找dom中元素绑定的事件"><span class="nav-number">3.</span> <span class="nav-text">3.寻找dom中元素绑定的事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-监听事件"><span class="nav-number">4.</span> <span class="nav-text">4.监听事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-找到语句块执行的时间"><span class="nav-number">5.</span> <span class="nav-text">5.找到语句块执行的时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-将变量的值以表格形式呈现"><span class="nav-number">6.</span> <span class="nav-text">6.将变量的值以表格形式呈现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-在dom中检测元素"><span class="nav-number">7.</span> <span class="nav-text">7.在dom中检测元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-列出与纳素的属性"><span class="nav-number">8.</span> <span class="nav-text">8.列出与纳素的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-取到上次最近结果的值"><span class="nav-number">9.</span> <span class="nav-text">9.取到上次最近结果的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-清楚cosole和缓存"><span class="nav-number">10.</span> <span class="nav-text">10.清楚cosole和缓存</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LEE</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyskFJqUw';
+      var conf = 'prod_e3833ede08caa7ad062442facd332875';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</body>
+</html>

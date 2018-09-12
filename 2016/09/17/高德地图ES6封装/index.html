@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,ES6," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="在做公司签到项目过程中有一个需求就是在手机上根据地点限制进行打卡，在项目过程中使用到了以下功能, 1.初始化地图 2.更加经纬度定位中心点 3.根据经纬度自定义mark标记 4.根据经纬度自定义范围Cirle标记 5.根据关键字搜索并对搜索结果进行处理 封装代码全部采用es6的方式。在过程中对搜索结果采用了Promise，用以解决搜索结果延迟的的问题（JavaScript同步）demo下载">
+<meta name="keywords" content="JavaScript,ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[原]高德地图ES6封装">
+<meta property="og:url" content="https://leehongqiang.github.io/2016/09/17/高德地图ES6封装/index.html">
+<meta property="og:site_name" content="前端分享">
+<meta property="og:description" content="在做公司签到项目过程中有一个需求就是在手机上根据地点限制进行打卡，在项目过程中使用到了以下功能, 1.初始化地图 2.更加经纬度定位中心点 3.根据经纬度自定义mark标记 4.根据经纬度自定义范围Cirle标记 5.根据关键字搜索并对搜索结果进行处理 封装代码全部采用es6的方式。在过程中对搜索结果采用了Promise，用以解决搜索结果延迟的的问题（JavaScript同步）demo下载">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-20T01:04:27.607Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[原]高德地图ES6封装">
+<meta name="twitter:description" content="在做公司签到项目过程中有一个需求就是在手机上根据地点限制进行打卡，在项目过程中使用到了以下功能, 1.初始化地图 2.更加经纬度定位中心点 3.根据经纬度自定义mark标记 4.根据经纬度自定义范围Cirle标记 5.根据关键字搜索并对搜索结果进行处理 封装代码全部采用es6的方式。在过程中对搜索结果采用了Promise，用以解决搜索结果延迟的的问题（JavaScript同步）demo下载">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leehongqiang.github.io/2016/09/17/高德地图ES6封装/"/>
+
+
+
+
+
+  <title>[原]高德地图ES6封装 | 前端分享</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?df7957c9a0e9fa27e2471c7827335fd4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">前端分享</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高效的工作就是自我驱动！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-thumbs-up"></i> <br />
+            
+            demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2016/09/17/高德地图ES6封装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[原]高德地图ES6封装</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-17T10:03:08+08:00">
+                2016-09-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2016/09/17/高德地图ES6封装/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2016/09/17/高德地图ES6封装/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在做公司签到项目过程中有一个需求就是在手机上根据地点限制进行打卡，在项目过程中使用到了以下功能,</p>
+<p>1.初始化地图</p>
+<p>2.更加经纬度定位中心点</p>
+<p>3.根据经纬度自定义mark标记</p>
+<p>4.根据经纬度自定义范围Cirle标记</p>
+<p>5.根据关键字搜索并对搜索结果进行处理</p>
+<p>封装代码全部采用es6的方式。在过程中对搜索结果采用了Promise，用以解决搜索结果延迟的的问题（JavaScript同步）<br><a href="https://github.com/leehongqiang/pro-demo/tree/master/gdMap" target="_blank" rel="noopener">demo下载</a></p>
+<a id="more"></a>
+<h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><h3 id="map-js"><a href="#map-js" class="headerlink" title="map.js"></a>map.js</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 高德地图封装</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @class Maps</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Maps</span></span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(option)&#123;</span><br><span class="line">    <span class="keyword">this</span>.option = option;</span><br><span class="line">    <span class="keyword">this</span>.gdmap = <span class="keyword">new</span> AMap.Map(<span class="keyword">this</span>.option.dom,<span class="keyword">this</span>.option.setting);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 重新设置地图中心点</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @param &#123;any&#125; poisition</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @memberOf Maps</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  changeMapCenter(poisition)&#123;</span><br><span class="line">    <span class="keyword">this</span>.gdmap.setZoomAndCenter(<span class="number">16</span>,poisition)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 在地图上添加mark（定位标记图标）</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @param &#123;any&#125; markOption</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @memberOf Maps</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  addMark(markOption)&#123;</span><br><span class="line">    <span class="keyword">let</span> self = <span class="keyword">this</span></span><br><span class="line">    <span class="keyword">let</span> icons = <span class="string">''</span></span><br><span class="line">    <span class="keyword">if</span>(markOption.clearMark)&#123;</span><br><span class="line">      self.gdmap.clearMap()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(markOption.icon)&#123;</span><br><span class="line">       icons= <span class="keyword">new</span> AMap.Icon(&#123;</span><br><span class="line">            size: <span class="keyword">new</span> AMap.Size(<span class="number">40</span>, <span class="number">50</span>),  <span class="comment">//图标大小</span></span><br><span class="line">            image: markOption.icon,</span><br><span class="line">            imageOffset: <span class="keyword">new</span> AMap.Pixel(<span class="number">0</span>, <span class="number">-60</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> mark = <span class="keyword">new</span> AMap.Marker(&#123;</span><br><span class="line">      position:markOption.position,</span><br><span class="line">      icon:icons</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">if</span>(markOption.title)&#123;</span><br><span class="line">      self.addInfo(markOption);</span><br><span class="line">    &#125;</span><br><span class="line">    mark.setMap(self.gdmap)</span><br><span class="line">    mark.on(<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      self.addInfo(markOption);</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 在地图上添加信息展示窗口</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @param &#123;any&#125; infoOption</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @memberOf Maps</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  addInfo(infoOption)&#123;</span><br><span class="line">    <span class="keyword">let</span> infoWindow;</span><br><span class="line">     <span class="keyword">let</span> infos = [];</span><br><span class="line">        infos.push(<span class="string">"&lt;div&gt;"</span>+infoOption.title+<span class="string">"&lt;/div&gt; "</span>);</span><br><span class="line">        infoWindow = <span class="keyword">new</span> AMap.InfoWindow(&#123;</span><br><span class="line">            content: infos.join(<span class="string">"&lt;br/&gt;"</span>),  <span class="comment">//使用默认信息窗体框样式，显示信息内容</span></span><br><span class="line">            offset: <span class="keyword">new</span> AMap.Pixel(<span class="number">0</span>, <span class="number">-30</span>),</span><br><span class="line">            autoMove:<span class="literal">true</span></span><br><span class="line">        &#125;);</span><br><span class="line">        infoWindow.open(<span class="keyword">this</span>.gdmap, infoOption.position);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * 在地图上标记园</span></span><br><span class="line"><span class="comment">   * @param &#123;any&#125; circleInfo</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @memberOf Maps</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  addCircle(circleInfo)&#123;</span><br><span class="line">    <span class="keyword">let</span> center = <span class="keyword">new</span> AMap.LngLat(circleInfo.center[<span class="number">0</span>],circleInfo.center[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">let</span> Circle = <span class="keyword">new</span> AMap.Circle(&#123;</span><br><span class="line">      center:center,</span><br><span class="line">      radius:circleInfo.radius,</span><br><span class="line">      fillOpacity:circleInfo.Opacity,</span><br><span class="line">      fillColor:circleInfo.bgColor,</span><br><span class="line">      strokeColor:circleInfo.borderColor</span><br><span class="line">    &#125;)</span><br><span class="line">    Circle.setMap(<span class="keyword">this</span>.gdmap)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 按关键字搜索并返回地址列表</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @param &#123;any&#125; searchInfo 搜索配置信息isGeographicis经纬度，addr地址</span></span><br><span class="line"><span class="comment">   * @returns &#123;arry&#125; info 返回地址数组列表</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @memberOf Maps</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  searchPlace(searchInfo)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">let</span> info = [];</span><br><span class="line">      AMap.service([<span class="string">"AMap.PlaceSearch"</span>], <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> placeSearch = <span class="keyword">new</span> AMap.PlaceSearch(&#123;</span><br><span class="line">          type:<span class="string">"汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施"</span>,</span><br><span class="line">          pageSize:searchInfo.size || searchInfo.size===<span class="number">0</span>?searchInfo.size:<span class="number">10</span></span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//判断是否用经纬度搜索</span></span><br><span class="line">        <span class="keyword">if</span>(searchInfo.isGeographicis)&#123;</span><br><span class="line">          placeSearch.searchNearBy(<span class="string">''</span>,searchInfo.Geographicis,searchInfo.range||<span class="number">1000</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          placeSearch.search(searchInfo.addr)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//监听是否搜索完毕</span></span><br><span class="line">        AMap.event.addListener(placeSearch, <span class="string">"complete"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">result</span>) </span>&#123;</span><br><span class="line">          result.poiList.pois.map(<span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">            info.push(&#123;</span><br><span class="line">              lng:value.location.lng,</span><br><span class="line">              lat:value.location.lat,</span><br><span class="line">              name:value.name,</span><br><span class="line">              addr:value.address</span><br><span class="line">            &#125;);</span><br><span class="line">          &#125;);</span><br><span class="line">          resolve(info)</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="html-代码"><a href="#html-代码" class="headerlink" title="html 代码"></a>html 代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1,maximum-sacle=1,user-scalable=no"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    body&#123;</span></span><br><span class="line"><span class="undefined">      margin: 0;</span></span><br><span class="line"><span class="undefined">      padding: 0</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.map</span>&#123;</span></span><br><span class="line"><span class="undefined">      width: 100%;</span></span><br><span class="line"><span class="undefined">      height: 300px;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"map"</span> <span class="attr">class</span>=<span class="string">"map"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">placeholder</span>=<span class="string">"请输入地址"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"listAddr"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://webapi.amap.com/maps?v=1.3&amp;key=304ddf7cb9b6415d4db8ab8cf3d97e10"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./js/map.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> newMap = <span class="keyword">new</span> Maps(&#123;</span></span><br><span class="line"><span class="javascript">    dom:<span class="string">"map"</span>,</span></span><br><span class="line"><span class="undefined">    setting:&#123;</span></span><br><span class="line"><span class="javascript">      center: [<span class="number">116.397428</span>, <span class="number">39.90923</span>],<span class="comment">//设置中心点</span></span></span><br><span class="line"><span class="javascript">      zoom: <span class="number">16</span>,<span class="comment">//设置地图缩放级别PC取值范围为3-18，移动端为3-19</span></span></span><br><span class="line"><span class="javascript">      dragEnable:<span class="literal">false</span>,<span class="comment">//设置地图是否可以鼠标拖拽</span></span></span><br><span class="line"><span class="javascript">      zoomEnable:<span class="literal">false</span><span class="comment">//设置地图是否可缩放</span></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;)</span></span><br><span class="line"><span class="undefined">  newMap.changeMapCenter([116.397428, 39.90923])</span></span><br><span class="line"><span class="undefined">  newMap.addMark(&#123;</span></span><br><span class="line"><span class="javascript">    position:[<span class="number">116.397428</span>, <span class="number">39.90923</span>],<span class="comment">//标记中心点</span></span></span><br><span class="line"><span class="javascript">    icon:<span class="literal">false</span>,<span class="comment">//false 使用默认的，需要自定义的传入图标路径</span></span></span><br><span class="line"><span class="javascript">    title:<span class="string">"我是一个title"</span><span class="comment">//给标记添加一个文章窗口描述</span></span></span><br><span class="line"><span class="undefined">  &#125;)</span></span><br><span class="line"><span class="undefined">  newMap.addCircle(&#123;</span></span><br><span class="line"><span class="javascript">    center:[<span class="number">116.397428</span>, <span class="number">39.90923</span>],<span class="comment">//园的中心点</span></span></span><br><span class="line"><span class="javascript">    radius:<span class="number">100</span>,<span class="comment">//半径</span></span></span><br><span class="line"><span class="javascript">    Opacity:<span class="number">0.5</span>,<span class="comment">//透明度</span></span></span><br><span class="line"><span class="javascript">    bgColor:<span class="string">"#ccc"</span>,<span class="comment">//园的背景颜色</span></span></span><br><span class="line"><span class="javascript">    borderColor:<span class="string">"#ccc"</span></span></span><br><span class="line"><span class="undefined">  &#125;)</span></span><br><span class="line"><span class="javascript">  <span class="keyword">let</span> inputDom = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"input"</span>)[<span class="number">0</span>];</span></span><br><span class="line"><span class="javascript">  <span class="keyword">let</span> listAddrDom = <span class="built_in">document</span>.getElementsByClassName(<span class="string">"listAddr"</span>)[<span class="number">0</span>];</span></span><br><span class="line"><span class="javascript">  inputDom.addEventListener(<span class="string">"change"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span></span><br><span class="line"><span class="undefined">    newMap.searchPlace(&#123;</span></span><br><span class="line"><span class="javascript">      isGeographicis:<span class="literal">false</span>,<span class="comment">//true时 Geographicis必须填写，false addr必须填写，如果为true按照默认按照经纬度搜索</span></span></span><br><span class="line"><span class="javascript">      Geographicis:[<span class="number">116.397428</span>, <span class="number">39.90923</span>],<span class="comment">//根据经纬度查找</span></span></span><br><span class="line"><span class="javascript">      range:<span class="number">1500</span>,<span class="comment">//默认为1000米，如果为0将使用默认值</span></span></span><br><span class="line"><span class="javascript">      addr:<span class="keyword">this</span>.value,<span class="comment">//根据具体地点关键字查找</span></span></span><br><span class="line"><span class="javascript">      size:<span class="number">10</span><span class="comment">//搜索结果条数设置,如果不设置默认为10条</span></span></span><br><span class="line"><span class="javascript">    &#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">date</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> html = <span class="string">''</span>;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span>(date.length !== <span class="number">0</span>)&#123;</span></span><br><span class="line"><span class="undefined">        newMap.changeMapCenter([date[0].lng, date[0].lat]);</span></span><br><span class="line"><span class="undefined">        newMap.addMark(&#123;</span></span><br><span class="line"><span class="javascript">          position:[date[<span class="number">0</span>].lng, date[<span class="number">0</span>].lat],<span class="comment">//标记中心点</span></span></span><br><span class="line"><span class="javascript">          icon:<span class="literal">false</span>,<span class="comment">//false 使用默认的，需要自定义的传入图标路径</span></span></span><br><span class="line"><span class="javascript">          title:date[<span class="number">0</span>].name,<span class="comment">//给标记添加一个文章窗口描述</span></span></span><br><span class="line"><span class="javascript">          clearMark:<span class="literal">false</span><span class="comment">//是否清除之前的点,如果想添加多个点需要设置为false</span></span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">        newMap.addCircle(&#123;</span></span><br><span class="line"><span class="javascript">          center:[date[<span class="number">0</span>].lng, date[<span class="number">0</span>].lat],<span class="comment">//园的中心点</span></span></span><br><span class="line"><span class="javascript">          radius:<span class="number">100</span>,<span class="comment">//半径</span></span></span><br><span class="line"><span class="javascript">          Opacity:<span class="number">0.5</span>,<span class="comment">//透明度</span></span></span><br><span class="line"><span class="javascript">          bgColor:<span class="string">"#ccc"</span>,<span class="comment">//园的背景颜色</span></span></span><br><span class="line"><span class="javascript">          borderColor:<span class="string">"#ccc"</span></span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="javascript">        date.map(<span class="function"><span class="keyword">function</span> (<span class="params">resule</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">          html+=<span class="string">'&lt;ul&gt;'</span>+</span></span><br><span class="line"><span class="javascript">                <span class="string">'&lt;li&gt;name:'</span>+resule.name+<span class="string">'&lt;/li&gt;'</span>+</span></span><br><span class="line"><span class="javascript">                <span class="string">'&lt;li&gt;addr:'</span>+resule.addr+<span class="string">'&lt;/li&gt;'</span>+</span></span><br><span class="line"><span class="javascript">                <span class="string">'&lt;li&gt;lng:'</span>+resule.lng+<span class="string">'&lt;/li&gt;'</span>+</span></span><br><span class="line"><span class="javascript">                <span class="string">'&lt;li&gt;lat:'</span>+resule.lat+<span class="string">'&lt;/li&gt;'</span>+</span></span><br><span class="line"><span class="javascript">                <span class="string">'&lt;/ul&gt;'</span>+</span></span><br><span class="line"><span class="javascript">                <span class="string">'&lt;hr&gt;'</span>;</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="javascript">      &#125;<span class="keyword">else</span>&#123;</span></span><br><span class="line"><span class="javascript">        html+=<span class="string">"你搜索的地点高德地图无法认识请输入更多的关键字：例如地名+关键字"</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      listAddrDom.innerHTML= html</span></span><br><span class="line"><span class="undefined">    &#125;)</span></span><br><span class="line"><span class="undefined">  &#125;)</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>如果对您有所帮助或者对博主有更多的话说，欢迎你去我的GitHub留下一个您的start和issues</strong></p>
+<p><strong><a href="https://github.com/leehongqiang/leehongqiang.github.io" target="_blank" rel="noopener">前往LEE的github给他一个Start鼓励一下吧</a></strong></p>
+<p><a href="https://leehongqiang.github.io">原创转载请标注出处：https://leehongqiang.github.io</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/ES6/" rel="tag"># ES6</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/02/BEM-CSS命名规范/" rel="next" title="[原]BEM--CSS命名规范">
+                <i class="fa fa-chevron-left"></i> [原]BEM--CSS命名规范
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/18/你可能不知道谷歌浏览器开发工具的其他用处.1/" rel="prev" title="[转]你可能不知道谷歌浏览器开发工具的其他用处">
+                [转]你可能不知道谷歌浏览器开发工具的其他用处 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="LEE" />
+          <p class="site-author-name" itemprop="name">LEE</p>
+           
+              <p class="site-description motion-element" itemprop="description">毕业后先后从事测试和前端开发工作！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives">
+            
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/leehongqiang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码如下"><span class="nav-number">1.</span> <span class="nav-text">代码如下</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map-js"><span class="nav-number">1.1.</span> <span class="nav-text">map.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#html-代码"><span class="nav-number">1.2.</span> <span class="nav-text">html 代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LEE</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyskFJqUw';
+      var conf = 'prod_e3833ede08caa7ad062442facd332875';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</body>
+</html>

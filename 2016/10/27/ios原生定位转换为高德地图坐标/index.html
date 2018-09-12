@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ES6，JavaScript,高德地图," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="今天在做项目的时候遇到一个问题客户反馈：他在使用签到（基于高德地图上下班打卡的移动HTML5应用）的过程中定位不准的问题.通过网络搜索发现IOS使用的是地心坐标，而高德地图的是火星坐标，所以直接使用ios手机GPS定位的坐标在高德上就会出现误差,Android定位不需要进行转换，因为她自己就是使用的火星坐标，更多详细信息请 查看经过测试误差在：300+米 这样肯定是不行的 下面直接给出解决方法:h">
+<meta name="keywords" content="ES6，JavaScript,高德地图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[原]ios原生定位转换为高德地图坐标">
+<meta property="og:url" content="https://leehongqiang.github.io/2016/10/27/ios原生定位转换为高德地图坐标/index.html">
+<meta property="og:site_name" content="前端分享">
+<meta property="og:description" content="今天在做项目的时候遇到一个问题客户反馈：他在使用签到（基于高德地图上下班打卡的移动HTML5应用）的过程中定位不准的问题.通过网络搜索发现IOS使用的是地心坐标，而高德地图的是火星坐标，所以直接使用ios手机GPS定位的坐标在高德上就会出现误差,Android定位不需要进行转换，因为她自己就是使用的火星坐标，更多详细信息请 查看经过测试误差在：300+米 这样肯定是不行的 下面直接给出解决方法:h">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-20T00:58:33.379Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[原]ios原生定位转换为高德地图坐标">
+<meta name="twitter:description" content="今天在做项目的时候遇到一个问题客户反馈：他在使用签到（基于高德地图上下班打卡的移动HTML5应用）的过程中定位不准的问题.通过网络搜索发现IOS使用的是地心坐标，而高德地图的是火星坐标，所以直接使用ios手机GPS定位的坐标在高德上就会出现误差,Android定位不需要进行转换，因为她自己就是使用的火星坐标，更多详细信息请 查看经过测试误差在：300+米 这样肯定是不行的 下面直接给出解决方法:h">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://leehongqiang.github.io/2016/10/27/ios原生定位转换为高德地图坐标/"/>
+
+
+
+
+
+  <title>[原]ios原生定位转换为高德地图坐标 | 前端分享</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?df7957c9a0e9fa27e2471c7827335fd4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">前端分享</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">高效的工作就是自我驱动！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-thumbs-up"></i> <br />
+            
+            demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://leehongqiang.github.io/2016/10/27/ios原生定位转换为高德地图坐标/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端分享">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[原]ios原生定位转换为高德地图坐标</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-27T10:03:08+08:00">
+                2016-10-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2016/10/27/ios原生定位转换为高德地图坐标/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2016/10/27/ios原生定位转换为高德地图坐标/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天在做项目的时候遇到一个问题<br>客户反馈：他在使用签到（基于高德地图上下班打卡的移动HTML5应用）的过程中定位不准的问题.通过网络搜索发现IOS使用的是地心坐标，而高德地图的是火星坐标，所以直接使用ios手机GPS定位的坐标在高德上就会出现误差,Android定位不需要进行转换，因为她自己就是使用的火星坐标，更多详细信息请</p>
+<h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a><a href="http://baike.baidu.com/link?url=m9KOrmfDEKmfNxGMPOWqJyTjAsUX2FNnf8Hy5di54t9WLLoYEGkalQCvkWlAYM2u1-OijqI4SogjEZ-RJL7-8_" target="_blank" rel="noopener">查看</a></h3><p>经过测试误差在：300+米</p>
+<p>这样肯定是不行的</p>
+<p>下面直接给出解决方法:<a href="http://blog.csdn.net/xiaobaismiley/article/details/37576303" target="_blank" rel="noopener">http://blog.csdn.net/xiaobaismiley/article/details/37576303</a><br>通过对此博客代码的研究，将其C++程序修改为JavaScript程序。<br>另外高德地图提供了一个API可以进行直接转换：但是会发送一次网络请求。</p>
+<p>如下代码是es6编写，如果要兼容所有浏览器需要进行babel转码，下来代码中讲2种方法都进行了封装</p>
+<a id="more"></a>
+<p>JavaScript</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 高德地图封装</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @class Maps</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Maps</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(option) &#123;</span><br><span class="line">    <span class="keyword">this</span>.option = option;</span><br><span class="line">    <span class="keyword">this</span>.gdmap = <span class="keyword">new</span> AMap.Map(<span class="keyword">this</span>.option.dom, <span class="keyword">this</span>.option.setting);<span class="comment">//高德地图init</span></span><br><span class="line">    <span class="keyword">this</span>.pi = <span class="number">3.1415926535897932384626</span>;<span class="comment">//圆周率</span></span><br><span class="line">    <span class="keyword">this</span>.ee = <span class="number">0.00669342162296594323</span>;<span class="comment">//</span></span><br><span class="line">    <span class="keyword">this</span>.a = <span class="number">6378245.0</span>;<span class="comment">// 长半轴，地球是个椭圆</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * IOS坐标地图转换为高德地图坐标，高德地图自己的方法</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @returns</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * @memberOf Maps</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  convertAdress(option) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">      AMap.convertFrom(option.posi, <span class="string">"gps"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">status, result</span>) </span>&#123;</span><br><span class="line">        resolve(result);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 地球坐标转换为火星坐标</span></span><br><span class="line"><span class="comment">    * World Geodetic System ==&gt; Mars Geodetic System</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * @param wgLat  地球坐标</span></span><br><span class="line"><span class="comment">    * @param wgLon</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * mglat,mglon 火星坐标</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  earthTransformMars(wgLat, wgLon) &#123;</span><br><span class="line">    <span class="keyword">let</span> mgLat =<span class="string">''</span>,</span><br><span class="line">        mgLon = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.outOfChina(wgLat, wgLon)) &#123;</span><br><span class="line">      mgLat = wgLat;</span><br><span class="line">      mgLon = wgLon;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> dLat = <span class="keyword">this</span>.transformLat(wgLon - <span class="number">105.0</span>, wgLat - <span class="number">35.0</span>),</span><br><span class="line">      dLon = <span class="keyword">this</span>.transformLon(wgLon - <span class="number">105.0</span>, wgLat - <span class="number">35.0</span>),</span><br><span class="line">      radLat = wgLat / <span class="number">180.0</span> * <span class="keyword">this</span>.pi,</span><br><span class="line">      magic = <span class="built_in">Math</span>.sin(radLat);</span><br><span class="line">    magic = <span class="number">1</span> - <span class="keyword">this</span>.ee * magic * magic;</span><br><span class="line">    <span class="keyword">let</span> sqrtMagic = <span class="built_in">Math</span>.sqrt(magic);</span><br><span class="line">    dLat = (dLat * <span class="number">180.0</span>) / ((<span class="keyword">this</span>.a * (<span class="number">1</span> - <span class="keyword">this</span>.ee)) / (magic * sqrtMagic) * <span class="keyword">this</span>.pi);</span><br><span class="line">    dLon = (dLon * <span class="number">180.0</span>) / (<span class="keyword">this</span>.a / sqrtMagic * <span class="built_in">Math</span>.cos(radLat) * <span class="keyword">this</span>.pi);</span><br><span class="line">    mgLat = wgLat + dLat;</span><br><span class="line">    mgLon = wgLon + dLon;</span><br><span class="line">    <span class="keyword">return</span> [mgLat,mgLon]</span><br><span class="line">  &#125;</span><br><span class="line">  outOfChina(lat, lon) &#123;</span><br><span class="line">    <span class="keyword">if</span> (lon &lt; <span class="number">72.004</span> || lon &gt; <span class="number">137.8347</span>)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (lat &lt; <span class="number">0.8293</span> || lat &gt; <span class="number">55.8271</span>)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  transformLat(x, y) &#123;</span><br><span class="line">    <span class="keyword">let</span> ret = <span class="number">-100.0</span> + <span class="number">2.0</span> * x + <span class="number">3.0</span> * y + <span class="number">0.2</span> * y * y + <span class="number">0.1</span> * x * y + <span class="number">0.2</span> * <span class="built_in">Math</span>.sqrt(<span class="built_in">Math</span>.abs(x));</span><br><span class="line">    ret += (<span class="number">20.0</span> * <span class="built_in">Math</span>.sin(<span class="number">6.0</span> * x * <span class="keyword">this</span>.pi) + <span class="number">20.0</span> * <span class="built_in">Math</span>.sin(<span class="number">2.0</span> * x * <span class="keyword">this</span>.pi)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">20.0</span> * <span class="built_in">Math</span>.sin(y * <span class="keyword">this</span>.pi) + <span class="number">40.0</span> * <span class="built_in">Math</span>.sin(y / <span class="number">3.0</span> * <span class="keyword">this</span>.pi)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">160.0</span> * <span class="built_in">Math</span>.sin(y / <span class="number">12.0</span> * <span class="keyword">this</span>.pi) + <span class="number">320</span> * <span class="built_in">Math</span>.sin(y * <span class="keyword">this</span>.pi / <span class="number">30.0</span>)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  transformLon(x, y) &#123;</span><br><span class="line">    <span class="keyword">let</span> ret = <span class="number">300.0</span> + x + <span class="number">2.0</span> * y + <span class="number">0.1</span> * x * x + <span class="number">0.1</span> * x * y + <span class="number">0.1</span> * <span class="built_in">Math</span>.sqrt(<span class="built_in">Math</span>.abs(x));</span><br><span class="line">    ret += (<span class="number">20.0</span> * <span class="built_in">Math</span>.sin(<span class="number">6.0</span> * x * <span class="keyword">this</span>.pi) + <span class="number">20.0</span> * <span class="built_in">Math</span>.sin(<span class="number">2.0</span> * x * <span class="keyword">this</span>.pi)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">20.0</span> * <span class="built_in">Math</span>.sin(x * <span class="keyword">this</span>.pi) + <span class="number">40.0</span> * <span class="built_in">Math</span>.sin(x / <span class="number">3.0</span> * <span class="keyword">this</span>.pi)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    ret += (<span class="number">150.0</span> * <span class="built_in">Math</span>.sin(x / <span class="number">12.0</span> * <span class="keyword">this</span>.pi) + <span class="number">300.0</span> * <span class="built_in">Math</span>.sin(x / <span class="number">30.0</span> * <span class="keyword">this</span>.pi)) * <span class="number">2.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1,maximum-sacle=1,user-scalable=no"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    body&#123;</span></span><br><span class="line"><span class="undefined">      margin: 0;</span></span><br><span class="line"><span class="undefined">      padding: 0</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.map</span>&#123;</span></span><br><span class="line"><span class="undefined">      width: 100%;</span></span><br><span class="line"><span class="undefined">      height: 300px;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"map"</span> <span class="attr">class</span>=<span class="string">"map"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">placeholder</span>=<span class="string">"请输入地址"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"listAddr"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://webapi.amap.com/maps?v=1.3&amp;key=你的key"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./js/map.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> newMap = <span class="keyword">new</span> Maps(&#123;</span></span><br><span class="line"><span class="javascript">    dom:<span class="string">"map"</span>,</span></span><br><span class="line"><span class="undefined">    setting:&#123;</span></span><br><span class="line"><span class="javascript">      center: [<span class="number">116.397428</span>, <span class="number">39.90923</span>],<span class="comment">//设置中心点</span></span></span><br><span class="line"><span class="javascript">      zoom: <span class="number">16</span>,<span class="comment">//设置地图缩放级别PC取值范围为3-18，移动端为3-19</span></span></span><br><span class="line"><span class="javascript">      dragEnable:<span class="literal">false</span>,<span class="comment">//设置地图是否可以鼠标拖拽</span></span></span><br><span class="line"><span class="javascript">      zoomEnable:<span class="literal">false</span><span class="comment">//设置地图是否可缩放</span></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;)</span></span><br><span class="line"><span class="undefined">  newMap.convertAdress(&#123;</span></span><br><span class="line"><span class="undefined">    posi:[104.0650229027,30.5446948650]</span></span><br><span class="line"><span class="javascript">  &#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(data);</span></span><br><span class="line"><span class="undefined">   &#125;);</span></span><br><span class="line"><span class="javascript">  <span class="keyword">let</span> res = newMap.earthTransformMars(<span class="number">30.5446948650</span>,<span class="number">104.0650229027</span>);</span></span><br><span class="line"><span class="javascript">  <span class="built_in">console</span>.log(res);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>如果对您有所帮助或者对博主有更多的话说，欢迎你去我的GitHub留下一个您的start和issues</strong></p>
+<p><strong><a href="https://github.com/leehongqiang/leehongqiang.github.io" target="_blank" rel="noopener">前往LEE的github给他一个Start鼓励一下吧</a></strong></p>
+<p><a href="https://leehongqiang.github.io">原创转载请标注出处：https://leehongqiang.github.io</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ES6，JavaScript/" rel="tag"># ES6，JavaScript</a>
+          
+            <a href="/tags/高德地图/" rel="tag"># 高德地图</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/11/如何让height值为百分之百起作用/" rel="next" title="[转]如何让height：100%起作用">
+                <i class="fa fa-chevron-left"></i> [转]如何让height：100%起作用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/01/理解网页渲染/" rel="prev" title="[转]理解网页渲染">
+                [转]理解网页渲染 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="LEE" />
+          <p class="site-author-name" itemprop="name">LEE</p>
+           
+              <p class="site-description motion-element" itemprop="description">毕业后先后从事测试和前端开发工作！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives">
+            
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/leehongqiang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看"><span class="nav-number">1.</span> <span class="nav-text">查看</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LEE</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyskFJqUw';
+      var conf = 'prod_e3833ede08caa7ad062442facd332875';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</body>
+</html>
