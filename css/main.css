@@ -1809,7 +1809,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #120b4d;
+  background: #c7a3de;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2585,7 +2585,7 @@ pre .javascript .function {
   overflow: hidden;
 }
 body {
-  background: url("../../images/ep_naturalblack.png");
+  background: url("../../images/ep_naturalblack.jpg");
 }
 .header {
   position: relative;
